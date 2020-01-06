@@ -1,7 +1,7 @@
 import React from 'react'
 import { INote } from "../types"
 
-export const Note = ({note}: {note: INote}) => {
+export const Note: React.FC<{note: INote}> = ({note}) => {
   return (
     <li className="list-group-item note">
       <strong className="note__ttl">{ note.title }</strong>

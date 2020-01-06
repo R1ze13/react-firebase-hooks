@@ -1,16 +1,26 @@
-import React from "react"
-import { AlertType, IAlert } from "../types"
+import React, { useContext } from "react"
+import { AlertContext } from "../context/alert"
+import { AlertType, IContext, IState } from "../types"
 
-const defaults: IAlert = {
+const defaults: IState = {
   text: '',
-  type: AlertType.Success,
-  isClosable: false
+  type: AlertType.Warning,
+  isClosable: true,
+  visible: false
 }
 
-export const Alert = ({alert}: {alert: IAlert}) => {
+export const Alert: React.FC = () => {
+  const {alert, hide} = useContext<IContext>(AlertContext)
+
   const params = {
     ...defaults,
     ...alert
+  }
+
+  console.log(params, alert)
+
+  if (!alert.visible) {
+    return null
   }
 
   return (
@@ -21,7 +31,12 @@ export const Alert = ({alert}: {alert: IAlert}) => {
       <strong>Attention!</strong> { params.text }
       {
         params.isClosable &&
-          <button type="button" className="close" aria-label="Close">
+          <button
+            onClick={hide}
+            type="button"
+            className="close"
+            aria-label="Close"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
       }
